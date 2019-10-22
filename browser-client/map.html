@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+
+<script type="text/javascript" src="./node_modules/rxjs/bundles/rxjs.umd.js"></script>
+<script type="text/javascript" src="http://static.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
+<script type="text/javascript" src="./node_modules/roslib/build/roslib.js"></script>
+<script type="module" src="./src/map-config.js"></script>
+<script type="module" src="./src/map.js"></script>
+</script>
+</head>
+
+<body>
+  <style>
+    #canvas {
+      width: 100%;
+      border: 1px solid grey;
+    }
+  </style>
+  <h1>Rosbridge in Action</h1>
+  <button onclick="model.loadDummyMap()">Load Dummy Map</button>
+  <canvas id="canvas"></canvas>
+</body>
+</html>
