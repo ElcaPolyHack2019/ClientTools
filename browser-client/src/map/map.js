@@ -4,37 +4,22 @@ import {
 import {
     MapRenderer,
 } from '../../lib/drawing.js';
+import {
+    observableTopic,
+    RosMaster
+} from '../../lib/ros.js';
 
 const config = window.config;
 
-var ros = new ROSLIB.Ros({
-    url : `ws://${config.hostname}:${config.port}`
-});
+const ros = new RosMaster(config.hostname, config.port);
 
-ros.on('connection', function() {
-    console.log('Connected to websocket server.');
-});
-
-ros.on('error', function(error) {
-    console.log('Error connecting to websocket server: ', error);
-});
-
-ros.on('close', function() {
-    console.log('Connection to websocket server closed.');
-});
-
-const mapTopic = new ROSLIB.Topic({
-    ros : ros,
+const mapTopic = ros.topic({
     name : '/mapstate',
     // http://docs.ros.org/api/nav_msgs/html/msg/OccupancyGrid.html
     messageType : 'nav_msgs/OccupancyGrid'
 });
 
-const mapData = rxjs.Observable.create(function(observer) {
-    mapTopic.subscribe(data => {
-        observer.next(data);
-    });
-});
+const mapData = observableTopic(mapTopic);
 
 const canvas = document.getElementById('canvas');
 canvas.width = 1920;
