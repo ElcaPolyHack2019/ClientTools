@@ -1,9 +1,9 @@
 import {
     Map,
-} from '../lib/geometry.js';
+} from '../../lib/geometry.js';
 import {
     MapRenderer,
-} from '../lib/drawing.js';
+} from '../../lib/drawing.js';
 
 const config = window.config;
 

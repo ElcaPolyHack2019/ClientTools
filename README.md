@@ -13,7 +13,7 @@ npm install
 ## Tools & Demos
 
 ### Map
-URL: http://localhost:8080/map.html
+URL: http://localhost:8080/src/map/map.html
 
 Shows a map that is published to `/mapstate` topic with [nav_msgs/OccupancyGrid](http://docs.ros.org/api/nav_msgs/html/msg/OccupancyGrid.html) information.
 
