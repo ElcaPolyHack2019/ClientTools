@@ -65,7 +65,7 @@ export class Robot {
         const p1 = p.add(new Vector(10, 0).rotate(-this.pose.orientation));
         const p2 = p.add(new Vector(-10, -7).rotate(-this.pose.orientation));
         const p3 = p.add(new Vector(-10, 7).rotate(-this.pose.orientation));
-        console.log(p, this.pose.orientation, p1);
+        
         ctx.beginPath();
         ctx.moveTo(p1.x, p1.y);
         ctx.lineTo(p2.x, p2.y);
