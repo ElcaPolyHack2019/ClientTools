@@ -30,7 +30,9 @@ export class RosMaster {
             for (let t of this.topics) {
                 console.log(t.name);
                 t.unsubscribe();
+                t.unadvertise();
             }
+            this.ros.close();
             console.log('done');
         }
     }
