@@ -3,7 +3,7 @@ import {
 } from '../../lib/ros.js';
 
 const config = window.config;
-const ros = new RosMaster('192.168.1.10', 9090);
+const ros = new RosMaster('localhost', 9090);
 
 const gpsData = ros.observable({
     name : '/tag_detections',
