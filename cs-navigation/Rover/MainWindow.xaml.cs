@@ -215,7 +215,7 @@ namespace Rover
 				Colors.Aquamarine), new Pen(Brushes.Aquamarine, 7), routeGroup);
 		}
 
-		private static GeometryDrawing DrawMapGroup(Map map, WorldTransform transform)
+		private GeometryDrawing DrawMapGroup(Map map, WorldTransform transform)
 		{
 			var mapGeometryGroup = new GeometryGroup();
 			foreach (var point in map.Nodes)
@@ -231,8 +231,17 @@ namespace Rover
 				}
 			}
 
+			var directionPoint0 = transform.Transform(_corner1);
+			var directionPoint1 = transform.Transform(new Navigation.Point(_corner1.X, _corner2.Y));
+			var directionPoint2 = transform.Transform(new Navigation.Point(_corner2.X, _corner1.Y));
+			var directionPoint3 = transform.Transform(_corner2);
+			mapGeometryGroup.Children.Add(new LineGeometry(directionPoint0, directionPoint1));
+			mapGeometryGroup.Children.Add(new LineGeometry(directionPoint1, directionPoint3));
+			mapGeometryGroup.Children.Add(new LineGeometry(directionPoint3, directionPoint2));
+			mapGeometryGroup.Children.Add(new LineGeometry(directionPoint2, directionPoint0));
+
 			return new GeometryDrawing(new SolidColorBrush(
-				Colors.Black), new Pen(Brushes.Black, 4), mapGeometryGroup); 
+				Colors.Black), new Pen(Brushes.Black, 4), mapGeometryGroup);
 		}
 
 		private Map _map;
@@ -263,15 +272,8 @@ namespace Rover
 			_target = new Navigation.Point(destX, destY);
 
 			DrawMap(_map);
-
-			//await Task.Delay(TimeSpan.FromSeconds(4));
-			//_visitedNodes.Add(new Navigation.Point(0, 0));
-			//_visitedNodes.Add(new Navigation.Point(0.2f, 0f));
-
-			//DrawMap(_map);
-
+			
 			var bot = new DuckieBot(RoverAdress.Text, RoverId.Text);
-			//bot.NavPointReached += Bot_NavPointReached;
 			bot.RouteCalculated += Bot_RouteCalculated;
 			bot.ObstaclesDetected += Bot_ObstaclesDetected;
 			await bot.MoveOnMap(_map, _target, new CancellationToken());
@@ -299,13 +301,5 @@ namespace Rover
 			});
 		}
 
-		private void Bot_NavPointReached(object sender, EventArgs args)
-		{
-			var rover = (DuckieBot) sender;
-			_visitedNodes.Add(new Navigation.Point(rover.CurrentX, rover.CurrentY));
-			Application.Current.Dispatcher.Invoke(()  => {
-				DrawMap(_map);
-			});
-		}
 	}
 }
