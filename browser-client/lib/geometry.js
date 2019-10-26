@@ -35,6 +35,9 @@ export class Vector {
     invertY() {
         return new Vector(this.x, -this.y);
     }
+    invert() {
+        return new Vector(-this.x, -this.y);
+    }
 }
 
 Vector.fromAngle = (phi, magnitude) => {
@@ -46,6 +49,12 @@ export class Pose {
     constructor(position, orientation) {
         this.position = position;
         this.orientation = orientation;
+    }
+    apply(vector) {
+        return vector.rotate(this.orientation).add(this.position);
+    }
+    unapply(vector) {
+        return vector.rotate(-this.orientation).add(this.position.invert());
     }
 }
 
