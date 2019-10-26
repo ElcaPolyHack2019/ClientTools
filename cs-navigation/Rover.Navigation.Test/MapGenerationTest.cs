@@ -15,7 +15,7 @@ namespace Rover.Navigation.Test
 	    [Test]
 	    public void GenerateSimpleMap()
 	    {
-		    var map = new Map(new Point(-2, -2), new Point(2,2), 2f);
+		    var map = new Map(new Point(-2, 2), new Point(2,-2), 2f);
 		    AssertNode(map, new Point(-1, -1));
 		    AssertNode(map, new Point(1, -1));
 		    AssertNode(map, new Point(-1, 1));

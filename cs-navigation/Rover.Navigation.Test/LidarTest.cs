@@ -39,7 +39,7 @@ namespace Rover.Navigation.Test
 				_data[0].Ranges[i] = null;
 			}
 
-			var points = _data[0].TransformDetectedPointsToStandardSystem(0.5f);
+			var points = _data[0].TransformDetectedPointsToStandardSystem(0.5f, new Point(0,0));
 			points.Should().BeEmpty();
 		}
 
@@ -53,7 +53,7 @@ namespace Rover.Navigation.Test
 
 			_data[0].Ranges[_data[0].Ranges.Length / 2] = 1;
 
-			var points = _data[0].TransformDetectedPointsToStandardSystem(0f);
+			var points = _data[0].TransformDetectedPointsToStandardSystem(0f, new Point(0,0));
 			points[0].Should().Be(new Point(1, 0));
 		}
 
@@ -67,8 +67,8 @@ namespace Rover.Navigation.Test
 
 			_data[0].Ranges[_data[0].Ranges.Length / 2] = 1;
 
-			var points = _data[0].TransformDetectedPointsToStandardSystem((float)(Math.PI / 2));
-			points[0].Y.Should().Be(-1);
+			var points = _data[0].TransformDetectedPointsToStandardSystem((float)(Math.PI / 2), new Point(0,0));
+			points[0].Y.Should().Be(1);
 			points[0].X.Should().BeApproximately(0, 0.01f);
 		}
 

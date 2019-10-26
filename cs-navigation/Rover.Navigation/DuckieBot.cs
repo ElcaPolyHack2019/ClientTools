@@ -68,9 +68,7 @@ namespace Rover.Navigation
 		/// </summary>
 		public float CurrentOrientation { get; set; }
 
-        public Trajectory CurrentOrder { get; private set; }
-
-        public DuckieBot(string serverUrl, string duckieId)
+		public DuckieBot(string serverUrl, string duckieId)
         {
             _baseUrl = $"{serverUrl}/api/{duckieId}";
             DuckieId = duckieId;

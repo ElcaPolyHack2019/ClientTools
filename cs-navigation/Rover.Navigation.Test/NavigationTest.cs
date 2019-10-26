@@ -49,19 +49,19 @@ namespace Rover.Navigation.Test
 		[Test]
 		public void TestNavPoints_AfterAppliedSuspectUnreachableNearby()
 		{
-			var map = new Map(new Point(-2, -2), new Point(2, 2), 0.2f);
+			var map = new Map(new Point(-2, 2), new Point(2, -2), 0.2f);
 			map.StartNode = map.Nodes.Find(x => x.Name == $"Node_1_1");
 			map.EndNode = map.Nodes.Find(x => x.Name == $"Node_3_3");
 			map.ApplySuspectUnreachable(new List<Point>()
 			{
-				new Point(-1.5f, -1.6f)
+				new Point(-1.5f, 1.6f)
 			}, 0.2f);
 
 			var searchEngine = new SearchEngine(map);
 			var navPoints = searchEngine.GetShortestPathDijikstra();
 
 			navPoints.Count.Should().Be(5);
-			AssertPath(navPoints, "Node_1_1", "Node_2_1", "Node_3_1", "Node_3_2", "Node_3_3");
+			AssertPath(navPoints, "Node_1_1", "Node_1_2", "Node_1_3", "Node_2_3", "Node_3_3");
 		}
 
 		public void AssertPath(List<Node> path, params string[] names)
