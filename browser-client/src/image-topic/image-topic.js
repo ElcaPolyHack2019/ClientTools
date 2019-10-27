@@ -8,8 +8,11 @@ const ros = new RosMaster(config.hostname, config.port);
 
 const imageData = ros.observable({
     name : config.topic,
-    messageType : 'sensor_msgs/CompressedImage'
-});
+    messageType : 'sensor_msgs/CompressedImage',
+    queue_size: 1,
+    queue_length: 1,
+    throttle_rate: 2000,
+}).pipe(rxjs.operators.tap(() => console.log("img")));
 
 const image = document.getElementById("image");
 
@@ -29,12 +32,20 @@ function renderImage(message) {
     image.src = uri;
 };
 
+let stopSignal = new rxjs.Subject();
+
 window.model = {
     update: () => {
         imageData.pipe(rxjs.operators.take(1)).subscribe((message) => {
             renderImage(message);
         });
+    },
+    start: () => {
+        imageData.pipe(rxjs.operators.takeUntil(stopSignal)).subscribe((message) => {
+            renderImage(message);
+        });
+    },
+    stop: () => {
+        stopSignal.next();
     }
 };
-
-window.model.update();
