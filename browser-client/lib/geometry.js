@@ -38,6 +38,10 @@ export class Vector {
     invert() {
         return new Vector(-this.x, -this.y);
     }
+
+    distance(other) {
+        return Math.sqrt((other.x - this.x) ** 2 + (other.y - this.y) ** 2);
+    }
 }
 
 Vector.fromAngle = (phi, magnitude) => {
@@ -64,7 +68,7 @@ export class Map {
         this._width = width;
         this._height = height;
 
-        if (initial.length) {
+        if (initial !== null && initial.length) {
             this._data = initial;
         } else {
             this._data = [];
@@ -85,7 +89,7 @@ export class Map {
     }
 
     at(x, y) {
-        if (x >= this._width || y >= this._height) {
+        if (x < 0 || x >= this._width || y < 0 || y >= this._height) {
             throw new Error('Map access out of bounds');
         }
 
