@@ -24,7 +24,7 @@ const lidarData = ros.observable({
 
 const botData = rxjs.interval(1000).pipe(
     rxjs.operators.flatMap(_ => {
-        return rxjs.from(fetch('http://192.168.1.11:5000/api/elcaduck', {
+        return rxjs.from(fetch('http://192.168.1.164:5000/api/elcaduck', {
             mode: 'cors',
         }).then(response => {
             return response.json();

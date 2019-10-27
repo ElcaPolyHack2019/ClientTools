@@ -64,17 +64,15 @@ export class Map {
         this._width = width;
         this._height = height;
 
-        this._data = [];
-        for (let y = 0; y < this._height; y++) {
-            const row = [];
-            for (let x = 0; x < this._width; x++) {
-                if (initial.length) {
-                    row.push(initial[y * this._width + x]);
-                } else {
-                    row.push(initial);
+        if (initial.length) {
+            this._data = initial;
+        } else {
+            this._data = [];
+            for (let y = 0; y < this._height; y++) {
+                for (let x = 0; x < this._width; x++) {
+                    this._data.push(initial);
                 }
             }
-            this._data.push(row);
         }
     }
 
@@ -91,7 +89,15 @@ export class Map {
             throw new Error('Map access out of bounds');
         }
 
-        return this._data[y][x];
+        return this._data[y * this._width + x];
+    }
+
+    set(x, y, value) {
+        if (x >= this._width || y >= this._height) {
+            throw new Error('Map access out of bounds');
+        }
+
+        this._data[y * this._width + x] = value;
     }
 
     each(action) {

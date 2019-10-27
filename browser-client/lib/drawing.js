@@ -3,19 +3,20 @@ import { Vector } from "./geometry.js";
 const identityTransform = x => x;
 
 export class MapRenderer {
-    constructor(map, tileSize, transform) {
+    constructor(map, tileSize, offsetTransform = x => x) {
         this.map = map;
         this.tileSize = tileSize;
-        this.transform = transform;
+        this.transform = (point) => offsetTransform(point.scale(this.tileSize));
     }
 
     render(ctx) {
         this.map.each((v, x, y) => {
+            const pos = this.transform(new Vector(x, y));
             const hue = 120 - 120 * (v / 100.0);
             ctx.fillStyle = 'hsl(' + hue + ', 100%, 75%)';
             ctx.fillRect(
-                x * this.tileSize + 1,
-                y * this.tileSize + 1,
+                pos.x + 1,
+                pos.y + 1,
                 this.tileSize - 2,
                 this.tileSize - 2
             );
