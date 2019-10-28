@@ -4,14 +4,15 @@ using System.Linq;
 
 namespace Rover.Navigation
 {
-    public class SearchEngine
-    {
-        public event EventHandler Updated;
 
-        private void OnUpdated()
-        {
-            Updated?.Invoke(null, EventArgs.Empty);
-        }
+	/// <summary>
+	/// Baed on
+	/// https://www.codeproject.com/Articles/1221034/Pathfinding-Algorithms-in-Csharp
+	/// see also
+	/// https://www.codeproject.com/info/cpol10.aspx
+	/// </summary>
+	public class SearchEngine
+    {
 
         public Map Map { get; set; }
         public Node Start { get; set; }
@@ -88,50 +89,6 @@ namespace Rover.Navigation
             } while (prioQueue.Any());
         }
 
-        public List<Node> GetShortestPathAstart()
-        {
-            foreach (var node in Map.Nodes)
-                node.StraightLineDistanceToEnd = node.StraightLineDistanceTo(End);
-            AstarSearch();
-            var shortestPath = new List<Node>();
-            shortestPath.Add(End);
-            BuildShortestPath(shortestPath, End);
-            shortestPath.Reverse();
-            return shortestPath;
-        }
-
-        private void AstarSearch()
-        {
-            NodeVisits = 0;
-            Start.MinCostToStart = 0;
-            var prioQueue = new List<Node>();
-            prioQueue.Add(Start);
-            do
-            {
-                prioQueue = prioQueue.OrderBy(x => x.MinCostToStart + x.StraightLineDistanceToEnd).ToList();
-                var node = prioQueue.First();
-                prioQueue.Remove(node);
-                NodeVisits++;
-                foreach (var cnn in node.Connections.OrderBy(x => x.Cost))
-                {
-                    var childNode = cnn.ConnectedNode;
-                    if (childNode.Visited)
-                        continue;
-                    if (childNode.MinCostToStart == null ||
-                        node.MinCostToStart + cnn.Cost < childNode.MinCostToStart)
-                    {
-                        childNode.MinCostToStart = node.MinCostToStart + cnn.Cost;
-                        childNode.NearestToStart = node;
-                        if (!prioQueue.Contains(childNode))
-                            prioQueue.Add(childNode);
-                    }
-                }
-
-                node.Visited = true;
-                if (node == End)
-                    return;
-            } while (prioQueue.Any());
-        }
     }
 
 

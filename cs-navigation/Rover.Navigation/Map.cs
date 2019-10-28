@@ -6,8 +6,13 @@ namespace Rover.Navigation
 {
 
 
-
-    public class Map
+	/// <summary>
+	/// Baed on
+	/// https://www.codeproject.com/Articles/1221034/Pathfinding-Algorithms-in-Csharp
+	/// see also
+	/// https://www.codeproject.com/info/cpol10.aspx
+	/// </summary>
+	public class Map
     {
 
 		// constructs a map with squares of the given size in the given area.
